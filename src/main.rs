@@ -5,10 +5,12 @@ use log::LevelFilter;
 use log::{error, info, warn};
 use std::env;
 
+mod init;
+
 fn main() {
     //  Initialize logger
-    env::set_var("RUST_LOG", "Info");
-    env_logger::init();
+    init::init_log(Some(LevelFilter::Info));
+
     // Create new gamepad access object
     let mut gilrs = Gilrs::new().unwrap();
     // Create active gamepad id
