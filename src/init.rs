@@ -1,19 +1,14 @@
+use crate::post;
 use reqwest::blocking::Client;
-use reqwest::header::{HeaderMap, HeaderValue, CONTENT_TYPE};
-// Refactor into post.rs
-pub fn init_anki(client: Client) -> Result<String, reqwest::Error> {
-    let mut headers = HeaderMap::new();
-    headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
+use reqwest::header::HeaderMap;
 
-    Ok(client
-        .post("http://127.0.0.1:8765")
-        .body(
-            "{\"action\": \"requestPermission\",\"version\": 6}
+pub fn init_anki(client: Client, headers: HeaderMap) -> Result<String, reqwest::Error> {
+    post::post(
+        client,
+        headers,
+        "\"action\": \"requestPermission\"
 ",
-        )
-        .headers(headers)
-        .send()?
-        .text()?)
+    )
 }
 
 pub fn init_anki_client() -> Result<Client, reqwest::Error> {
