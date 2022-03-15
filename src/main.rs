@@ -1,10 +1,25 @@
-use log::LevelFilter;
+use log::{info, LevelFilter};
 mod init;
 
 fn main() {
-    //  Initialize logger
-    init::init_log(Some(LevelFilter::Info));
-    init::init_gamepad();
+    match init::init_log(Some(LevelFilter::Info)) {
+        Ok(_) => info!("Log Initializaton successful, continuing"),
+        Err(err) => panic!("Log Initializaton failed with {:?}", err),
+    };
+
+    let client = match init::init_anki_client() {
+        Ok(client) => {
+            info!("HTTPS Client Initializaton successful, continuing");
+            client
+        }
+        Err(err) => panic!("HTTPS Client Initializaton failed with {:?}", err),
+    };
+
+    init::init_anki(client);
+    match init::init_gamepad() {
+        Ok(_) => info!("Gamepad Initializaton successful, continuing"),
+        Err(err) => panic!("Gamepad Initializaton failed with {:?}", err),
+    };
 }
 
 /*
