@@ -15,6 +15,7 @@ dependencies = [
 name = "anki_controllers"
 version = "0.1.0"
 dependencies = [
+ "custom_error",
  "env_logger",
  "gilrs",
  "log",
@@ -113,6 +114,12 @@ name = "core-foundation-sys"
 version = "0.8.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5827cebf4670468b8772dd191856768aedcb1b0278a04f989f7766351917b9dc"
+
+[[package]]
+name = "custom_error"
+version = "1.9.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4f8a51dd197fa6ba5b4dc98a990a43cc13693c23eb0089ebb0fcc1f04152bca6"
 
 [[package]]
 name = "discard"

@@ -1,14 +1,21 @@
 use crate::post;
 use reqwest::blocking::Client;
 use reqwest::header::HeaderMap;
+use serde_json;
 
-pub fn init_anki(client: Client, headers: HeaderMap) -> Result<String, reqwest::Error> {
-    post::post(
+pub fn init_anki(client: Client, headers: HeaderMap) -> Result<(), post::Error> {
+    let result = post::post(
         client,
         headers,
-        "\"action\": \"requestPermission\"
+        "{\"version\": 6, \"action\": \"requestPermission\"}
 ",
-    )
+    )?;
+    match &result["result"]["permission"] {
+        serde_json::Value::String(is_granted) if is_granted == "granted" => Ok(()),
+        _ => Err(post::Error::AnkiError {
+            err: "Permission to access anki not granted".to_string(),
+        }),
+    }
 }
 
 pub fn init_anki_client() -> Result<Client, reqwest::Error> {

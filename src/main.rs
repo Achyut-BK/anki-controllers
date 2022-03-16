@@ -23,8 +23,11 @@ fn main() {
         Err(err) => panic!("Anki connection failed with {:?}", err),
     };
 
-    match init::init_gamepad() {
-        Ok(_) => info!("Gamepad Initializaton successful, continuing"),
+    let active_gamepad_id = match init::init_gamepad() {
+        Ok(gamepad) => {
+            info!("Gamepad Initializaton successful, continuing");
+            gamepad
+        }
         Err(err) => panic!("Gamepad Initializaton failed with {:?}", err),
     };
 }
