@@ -10,8 +10,8 @@ use reqwest::blocking::Client;
 use reqwest::header::{HeaderMap, HeaderValue, CONTENT_TYPE};
 use serde_json::Value;
 
-pub fn post(client: Client, headers: HeaderMap, body: &'static str) -> Result<Value, Error> {
-    let result = post_raw(client, headers, body)?;
+pub fn post(client: Client, headers: HeaderMap, body: Value) -> Result<Value, Error> {
+    let result = post_raw(client, headers, &body)?;
     let json: Value = serde_json::from_str(&result)?;
     match &json["error"] {
         Value::Null => Ok(json),
@@ -24,11 +24,11 @@ pub fn post(client: Client, headers: HeaderMap, body: &'static str) -> Result<Va
 pub fn post_raw(
     client: Client,
     headers: HeaderMap,
-    body: &'static str,
+    body: &Value,
 ) -> Result<String, reqwest::Error> {
     Ok(client
         .post("http://127.0.0.1:8765")
-        .body(body)
+        .body(body.to_string())
         .headers(headers)
         .send()?
         .text()?)

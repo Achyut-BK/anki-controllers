@@ -1,14 +1,16 @@
 use crate::post;
 use reqwest::blocking::Client;
 use reqwest::header::HeaderMap;
-use serde_json;
+use serde_json::json;
 
 pub fn init_anki(client: Client, headers: HeaderMap) -> Result<(), post::Error> {
     let result = post::post(
         client,
         headers,
-        "{\"version\": 6, \"action\": \"requestPermission\"}
-",
+        json!({
+            "version": 6,
+            "action": "requestPermission"
+        }),
     )?;
     match &result["result"]["permission"] {
         serde_json::Value::String(is_granted) if is_granted == "granted" => Ok(()),
@@ -28,10 +30,10 @@ pub fn init_anki_client() -> Result<Client, reqwest::Error> {
 }
 
 use gilrs::ev::{Button, EventType};
-use gilrs::{Event, Gilrs, MappingSource};
+use gilrs::{Event, GamepadId, Gilrs, MappingSource};
 use log::{info, warn};
 
-pub fn init_gamepad() -> Result<usize, gilrs::Error> {
+pub fn init_gamepad() -> Result<(GamepadId, Gilrs), gilrs::Error> {
     let mut gilrs = Gilrs::new()?;
     let active_gamepad_id;
 
@@ -48,11 +50,11 @@ pub fn init_gamepad() -> Result<usize, gilrs::Error> {
                 }
                 _ => info!("{} is supported, Proceeding", gilrs.gamepad(id).name()),
             }
-            active_gamepad_id = id.into();
+            active_gamepad_id = id;
             break;
         }
     }
-    Ok(active_gamepad_id)
+    Ok((active_gamepad_id, gilrs))
 }
 
 use log::{LevelFilter, SetLoggerError};

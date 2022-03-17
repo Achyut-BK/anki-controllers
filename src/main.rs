@@ -1,4 +1,5 @@
 use log::{info, LevelFilter};
+mod controller;
 mod init;
 mod post;
 
@@ -6,6 +7,14 @@ fn main() {
     match init::init_log(Some(LevelFilter::Info)) {
         Ok(_) => info!("Log Initializaton successful, continuing"),
         Err(err) => panic!("Log Initializaton failed with {:?}", err),
+    };
+
+    let (active_gamepad_id, mut gilrs) = match init::init_gamepad() {
+        Ok((gamepad, gilrs)) => {
+            info!("Gamepad Initializaton successful, continuing");
+            (gamepad, gilrs)
+        }
+        Err(err) => panic!("Gamepad Initializaton failed with {:?}", err),
     };
 
     let client = match init::init_anki_client() {
@@ -23,13 +32,15 @@ fn main() {
         Err(err) => panic!("Anki connection failed with {:?}", err),
     };
 
-    let active_gamepad_id = match init::init_gamepad() {
-        Ok(gamepad) => {
-            info!("Gamepad Initializaton successful, continuing");
-            gamepad
-        }
-        Err(err) => panic!("Gamepad Initializaton failed with {:?}", err),
-    };
+    loop {
+        println!(
+            "{:?}",
+            controller::next_event(active_gamepad_id, &mut gilrs)
+        );
+        // check for controller input
+        // When recieve controller input create request
+        // When recieve request, post
+    }
 }
 
 /*
