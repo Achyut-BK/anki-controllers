@@ -40,7 +40,7 @@ pub fn init_gamepad() -> Result<(GamepadId, Gilrs), gilrs::Error> {
     loop {
         if let Some(Event {
             id,
-            event: EventType::ButtonPressed(Button::Mode, _),
+            event: EventType::ButtonPressed(Button::Start, _),
             time: _,
         }) = gilrs.next_event()
         {

@@ -10,6 +10,8 @@ fn main() {
         Err(err) => panic!("Log Initializaton failed with {:?}", err),
     };
 
+    println!("Press the Start or \"Review Cards\" button to start");
+
     let (active_gamepad_id, mut gilrs) = match init::init_gamepad() {
         Ok((gamepad, gilrs)) => {
             info!("Gamepad Initializaton successful, continuing");
