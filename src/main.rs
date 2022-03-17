@@ -2,6 +2,7 @@ use log::{info, LevelFilter};
 mod controller;
 mod init;
 mod post;
+mod request;
 
 fn main() {
     match init::init_log(Some(LevelFilter::Info)) {
@@ -35,7 +36,7 @@ fn main() {
     loop {
         println!(
             "{:?}",
-            controller::next_event(active_gamepad_id, &mut gilrs)
+            request::generate(controller::next_event(active_gamepad_id, &mut gilrs))
         );
         // check for controller input
         // When recieve controller input create request
