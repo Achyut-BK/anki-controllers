@@ -1,4 +1,4 @@
-use log::{info, LevelFilter};
+use log::{error, info, LevelFilter};
 mod controller;
 mod init;
 mod post;
@@ -34,19 +34,16 @@ fn main() {
     };
 
     loop {
-        println!(
-            "{:?}",
-            post::post(
+        match post::post(
+            &client,
+            request::generate(
+                controller::next_event(active_gamepad_id, &mut gilrs),
                 &client,
-                request::generate(
-                    controller::next_event(active_gamepad_id, &mut gilrs),
-                    &client,
-                )
-            )
-        );
-        // check for controller input
-        // When recieve controller input create request
-        // When recieve request, post
+            ),
+        ) {
+            Ok(_) => (),
+            Err(err) => error!("{}", err),
+        };
     }
 }
 

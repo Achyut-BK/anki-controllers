@@ -13,7 +13,6 @@ pub fn generate(button: Button, client: &Client) -> Value {
         }),
     ) {
         current_card_id = card["result"]["cardId"].as_u64().unwrap();
-        println!("{}", current_card_id)
     };
     match button {
         Button::Mode => json!({
