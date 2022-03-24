@@ -7,11 +7,11 @@ custom_error! {pub Error
 }
 
 use reqwest::blocking::Client;
-use reqwest::header::{HeaderMap, HeaderValue, CONTENT_TYPE};
+use reqwest::header::CONTENT_TYPE;
 use serde_json::Value;
 
-pub fn post(client: Client, headers: HeaderMap, body: Value) -> Result<Value, Error> {
-    let result = post_raw(client, headers, &body)?;
+pub fn post(client: &Client, body: Value) -> Result<Value, Error> {
+    let result = post_raw(client, &body)?;
     let json: Value = serde_json::from_str(&result)?;
     match &json["error"] {
         Value::Null => Ok(json),
@@ -21,21 +21,11 @@ pub fn post(client: Client, headers: HeaderMap, body: Value) -> Result<Value, Er
     }
 }
 
-pub fn post_raw(
-    client: Client,
-    headers: HeaderMap,
-    body: &Value,
-) -> Result<String, reqwest::Error> {
+pub fn post_raw(client: &Client, body: &Value) -> Result<String, reqwest::Error> {
     Ok(client
         .post("http://127.0.0.1:8765")
         .body(body.to_string())
-        .headers(headers)
+        .header(CONTENT_TYPE, "application/json")
         .send()?
         .text()?)
-}
-
-pub fn get_headers() -> HeaderMap {
-    let mut header = HeaderMap::new();
-    header.insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
-    header
 }

@@ -1,12 +1,10 @@
 use crate::post;
 use reqwest::blocking::Client;
-use reqwest::header::HeaderMap;
 use serde_json::json;
 
-pub fn init_anki(client: Client, headers: HeaderMap) -> Result<(), post::Error> {
+pub fn init_anki(client: &Client) -> Result<(), post::Error> {
     let result = post::post(
         client,
-        headers,
         json!({
             "version": 6,
             "action": "requestPermission"

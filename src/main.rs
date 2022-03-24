@@ -28,9 +28,7 @@ fn main() {
         Err(err) => panic!("HTTPS Client Initializaton failed with {:?}", err),
     };
 
-    let headers = post::get_headers();
-
-    match init::init_anki(client, headers) {
+    match init::init_anki(&client) {
         Ok(_) => info!("Anki connection successful, continuing"),
         Err(err) => panic!("Anki connection failed with {:?}", err),
     };
@@ -38,7 +36,13 @@ fn main() {
     loop {
         println!(
             "{:?}",
-            request::generate(controller::next_event(active_gamepad_id, &mut gilrs))
+            post::post(
+                &client,
+                request::generate(
+                    controller::next_event(active_gamepad_id, &mut gilrs),
+                    &client,
+                )
+            )
         );
         // check for controller input
         // When recieve controller input create request
