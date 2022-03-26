@@ -13,7 +13,7 @@ Goal: Use a Controller with anki to Review Cards with ease
 ![Controller Button Map](https://raw.githubusercontent.com/Achyut-BK/anki-controllers/145d866684e77496c420dda689916b44cc4c2b97/controller_map.svg)
 ### How to Install
 1. Install the [AnkiConnect Addon](https://ankiweb.net/shared/info/2055492159)
-2. Download the executable for your OS from [our releases page](https://github.com/Achyut-BK/anki-controllers)
+2. Download the executable for your OS from [our releases page](https://github.com/Achyut-BK/anki-controllers/releases)
 3. Releases are available for :
  - Linux
  - Windows
