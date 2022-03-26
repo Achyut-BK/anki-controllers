@@ -6,7 +6,7 @@ Goal: Use a Controller with anki to Review Cards with ease
 ![Generic Controller Layout](https://raw.githubusercontent.com/Achyut-BK/anki-controllers/145d866684e77496c420dda689916b44cc4c2b97/controller_default.svg)
 - So far, The DualShock 4 has been confirmed to work. XBox Controllers and Other Dualshocks should also be compatible. If any other controllers work, please create an issue so that I can add it to the compatibility list.
 - This Program has been tested with Linux & Windows 10, but the Windows exe should also be compatible with Windows 11. Mac OSX should work if you build it yourself.
-- Note, XBox Controllers work on windows out of the box due to Microsoft being inconsistent with APIs. You need to find a way to convert DirectInput events to XInput events.
+- Note, only XBox Controllers work on windows out of the box due to Microsoft being inconsistent with APIs. You need to find a way to convert DirectInput events to XInput events.
 - For a Dualshock 4 or 5, installing [DS4Windows](https://www.pcgamer.com/how-to-use-a-ps4-controller-on-pc/#section-ds4windows/) and having DS4Windows.exe open while running anki_controllers will suffice.
 
 ### Control Scheme
